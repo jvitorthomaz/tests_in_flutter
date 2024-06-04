@@ -10,7 +10,7 @@ class RecentActivity extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Padding(
             padding: EdgeInsets.all(16.0),
-            child: BoxCard(boxCardBody: AccountStatus(key:Key('testKey'),)),
+            child: BoxCard(boxCardBody: AccountStatus(key: Key('testKey'),)),
           );
   }
 }
