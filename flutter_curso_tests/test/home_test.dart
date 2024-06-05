@@ -1,13 +1,27 @@
 import 'package:estilizacao_componentes/components/box_card.dart';
+import 'package:estilizacao_componentes/data/bank_http.dart';
 import 'package:estilizacao_componentes/data/bank_inherited.dart';
 import 'package:estilizacao_componentes/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+
+import 'bank_api.dart';
 void main(){
+  final MockBankHttp httpMock = MockBankHttp();
+
+  // late MockBankHttp httpMock;
+
+  // setUp(() {
+  //     httpMock = MockBankHttp();
+  // });
+  
   testWidgets('My Widget has a text "Spent"', (tester) async{
+    when(httpMock.dolarToReal()).thenAnswer((_) async => ('5'));
+
     await tester.pumpWidget(
       MaterialApp(
-        home: BankInherited(child: Home()),
+        home: BankInherited(child: Home(api: httpMock.dolarToReal())),
       )
     );
     final spentFinder = find.text('Spent');
@@ -15,27 +29,33 @@ void main(){
   });
 
   testWidgets('finds a LinearProgressIndicator', (tester) async{
+    when(httpMock.dolarToReal()).thenAnswer((_) async => ('5'));
+
     await tester.pumpWidget(
       MaterialApp(
-        home: BankInherited(child: Home()),
+        home: BankInherited(child: Home(api: httpMock.dolarToReal())),
       )
     );
     expect(find.byType(LinearProgressIndicator), findsOneWidget);
   });
 
-    testWidgets('finds an AccountStatus', (tester) async{
+  testWidgets('finds an AccountStatus', (tester) async{
+    when(httpMock.dolarToReal()).thenAnswer((_) async => ('5'));
+
     await tester.pumpWidget(
       MaterialApp(
-        home: BankInherited(child: Home()),
+        home: BankInherited(child: Home(api: httpMock.dolarToReal())),
       )
     );
     expect(find.byKey(Key('testKey')), findsOneWidget);
   });
 
   testWidgets('finds 5 BoxCards', (tester) async{
+    when(httpMock.dolarToReal()).thenAnswer((_) async => ('5'));
+
     await tester.pumpWidget(
       MaterialApp(
-        home: BankInherited(child: Home()),
+        home: BankInherited(child: Home(api: httpMock.dolarToReal())),
       )
     );
     expect(find.byWidgetPredicate((widget) {
@@ -49,9 +69,11 @@ void main(){
   });
 
   testWidgets('When tap Deposit should update earned in 10 ', (tester) async{
+    when(httpMock.dolarToReal()).thenAnswer((_) async => ('5'));
+
     await tester.pumpWidget(
       MaterialApp(
-        home: BankInherited(child: Home()),
+        home: BankInherited(child: Home(api: httpMock.dolarToReal())),
       )
     );
 
@@ -60,5 +82,16 @@ void main(){
     await tester.pumpAndSettle();
 
     expect(find.text('\$10.0'), findsOneWidget);
+  });
+
+  testWidgets('Testing MockHttp dolarToReal', (tester) async{
+    when(httpMock.dolarToReal()).thenAnswer((_) async => ('5'));
+
+        await tester.pumpWidget(
+      MaterialApp(
+        home: BankInherited(child: Home(api: httpMock.dolarToReal())),
+      )
+    );
+    verify(httpMock.dolarToReal()).called(1);
   });
 }
