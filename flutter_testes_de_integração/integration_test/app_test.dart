@@ -52,6 +52,31 @@ void main(){
     expect(find.text('Ferro'), findsOneWidget);
     expect(find.byIcon(Icons.card_giftcard), findsOneWidget);
 
+    // Testando criação de novo cliente
+      await tester.tap(find.byIcon(Icons.menu));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Gerenciar clientes'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byType(FloatingActionButton));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(find.byKey(Key('NameKey1')), 'User Test');
+      await tester.enterText(find.byKey(Key('EmailKey1')), 'user_test@bot.com.br');
+
+      await tester.tap(find.byIcon(Icons.arrow_downward));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Ferro').last);
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Salvar'));
+      await tester.pumpAndSettle();
+
+      //Verificando se cliente foi cadastrado corretamente
+      expect(find.text('User Test (Ferro)'), findsOneWidget);
+      expect(find.byIcon(Icons.card_giftcard), findsOneWidget);
   });
 
 }
